@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("CurrencyBot")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+d0c9e7654ada24e6d549c5319d19bd0a78978bce")]
 [assembly: System.Reflection.AssemblyProductAttribute("CurrencyBot")]
 [assembly: System.Reflection.AssemblyTitleAttribute("CurrencyBot")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
