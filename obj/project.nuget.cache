@@ -1,0 +1,14 @@
+{
+  "version": 2,
+  "dgSpecHash": "SVTbaMfRPHE=",
+  "success": true,
+  "projectFilePath": "E:\\Projects\\CurrencyBot\\CurrencyBot\\CurrencyBot.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\www.nikoosystem.com\\.nuget\\packages\\microsoft.extensions.dependencyinjection.abstractions\\8.0.0\\microsoft.extensions.dependencyinjection.abstractions.8.0.0.nupkg.sha512",
+    "C:\\Users\\www.nikoosystem.com\\.nuget\\packages\\microsoft.extensions.options\\8.0.0\\microsoft.extensions.options.8.0.0.nupkg.sha512",
+    "C:\\Users\\www.nikoosystem.com\\.nuget\\packages\\microsoft.extensions.primitives\\8.0.0\\microsoft.extensions.primitives.8.0.0.nupkg.sha512",
+    "C:\\Users\\www.nikoosystem.com\\.nuget\\packages\\newtonsoft.json\\14.0.1-beta2\\newtonsoft.json.14.0.1-beta2.nupkg.sha512",
+    "C:\\Users\\www.nikoosystem.com\\.nuget\\packages\\telegram.bot\\22.10.3.3\\telegram.bot.22.10.3.3.nupkg.sha512"
+  ],
+  "logs": []
+}
