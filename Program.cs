@@ -5,7 +5,7 @@ using CurrencyBot.Api;
 
 WelcomeMessage("Started Bot");
 
-TelegramBotClient telegramBot = new("BOT-TOKEN");
+TelegramBotClient telegramBot = new(Environment.GetEnvironmentVariable("BOT-TOKEN"));
 IranMarket iranMarket = new IranMarket();
 
 while (true)
@@ -14,7 +14,7 @@ while (true)
 
     string res = ConvertCurrencyText(current ?? new());
 
-    await telegramBot.SendMessage("CHANNEL_LINK", $"{res}"); // Don't forget to add an '@' symbol before the channel link.
+    await telegramBot.SendMessage(Environment.GetEnvironmentVariable("CHANNEL_LINK"), $"{res}"); // Don't forget to add an '@' symbol before the channel link.
     await Task.Delay(TimeSpan.FromMinutes(29));
 }
 
