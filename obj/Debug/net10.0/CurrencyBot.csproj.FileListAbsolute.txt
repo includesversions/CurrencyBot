@@ -40,3 +40,4 @@ E:\Projects\CurrencyBot\CurrencyBot\obj\Debug\net10.0\refint\CurrencyBot.dll
 E:\Projects\CurrencyBot\CurrencyBot\obj\Debug\net10.0\CurrencyBot.pdb
 E:\Projects\CurrencyBot\CurrencyBot\obj\Debug\net10.0\CurrencyBot.genruntimeconfig.cache
 E:\Projects\CurrencyBot\CurrencyBot\obj\Debug\net10.0\ref\CurrencyBot.dll
+E:\Projects\CurrencyBot\CurrencyBot\obj\Debug\net10.0\CurrencyBot.sourcelink.json
