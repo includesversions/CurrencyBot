@@ -7,7 +7,7 @@ using CurrencyBot;
 
 WelcomeMessage("Started Bot");
 
-TelegramBotClient telegramBot = new(Environment.GetEnvironmentVariable("BOT_TOKEN")!);
+TelegramBotClient telegramBot = new(Environment.GetEnvironmentVariable("BOT-TOKEN")!);
 IranMarket iranMarket = new IranMarket();
 
 Cache cache = new();
