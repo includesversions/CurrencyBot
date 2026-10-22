@@ -1,4 +1,5 @@
 ﻿using System.Globalization;
+using System.Diagnostics;
 using System.Text;
 using Telegram.Bot;
 using CurrencyBot.Api;
@@ -14,14 +15,17 @@ Cache cache = new();
 while (true)
 {
     CurrencyResponse? current = await iranMarket.GetCurrency();
-    if (current == null) return;
+    if (current == null) continue;
 
     CacheBalancer(current);
 
     string res = ConvertCurrencyText(cache.Data ?? new());
     Console.WriteLine("Get currency.");
-
-    await telegramBot.SendMessage(Environment.GetEnvironmentVariable("CHANNEL_LINK")!, $"{res}"); // Don't forget to add an '@' symbol before the channel link.
+    try
+    {
+        await telegramBot.SendMessage(Environment.GetEnvironmentVariable("CHANNEL_LINK")!, $"{res}"); // Don't forget to add an '@' symbol before the channel link.
+    }
+    catch { await Task.Delay(5000); continue; }
 
     await Task.Delay(TimeSpan.FromMinutes(59));
 }
