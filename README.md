@@ -1,6 +1,6 @@
 # CurrencyBot
 
-A Telegram bot that retrieves the prices of 6 currencies every 30 minutes and publishes them to a Telegram channel.
+A Telegram bot that retrieves the prices of 6 currencies every 1 hour and publishes them to a Telegram channel.
 
 ## API
 

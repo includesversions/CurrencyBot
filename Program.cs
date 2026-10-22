@@ -2,23 +2,31 @@
 using System.Text;
 using Telegram.Bot;
 using CurrencyBot.Api;
+using CurrencyBot;
 
 WelcomeMessage("Started Bot");
 
-TelegramBotClient telegramBot = new(Environment.GetEnvironmentVariable("BOT-TOKEN")!);
+TelegramBotClient telegramBot = new(Environment.GetEnvironmentVariable("CHANNEL_LINK")!);
 IranMarket iranMarket = new IranMarket();
+
+Cache cache = new();
 
 while (true)
 {
     CurrencyResponse? current = await iranMarket.GetCurrency();
+    if (current == null) return;
 
-    string res = ConvertCurrencyText(current ?? new());
+    CacheBalancer(current);
 
-    await telegramBot.SendMessage(Environment.GetEnvironmentVariable("CHANNEL_LINK")!, $"{res}"); // Don't forget to add an '@' symbol before the channel link. 
-    await Task.Delay(TimeSpan.FromMinutes(60));
+    string res = ConvertCurrencyText(cache.Data ?? new());
+    Console.WriteLine("Get currency.");
+
+    await telegramBot.SendMessage(Environment.GetEnvironmentVariable("CHANNEL_LINK")!, $"{res}"); // Don't forget to add an '@' symbol before the channel link.
+
+    await Task.Delay(TimeSpan.FromMinutes(59));
 }
 
-string ConvertCurrencyText(CurrencyResponse currencyResponse)
+string ConvertCurrencyText(List<Currency> data)
 {
     string[] keys = ["USD_IRR_FREE", "EUR_IRR_FREE", "GBP_IRR_FREE", "GOLD_18K_IRR", "COIN_EMAMI_IRR", "USDT_IRR"];
 
@@ -29,7 +37,7 @@ string ConvertCurrencyText(CurrencyResponse currencyResponse)
 
     foreach (string key in keys)
     {
-        Currency currency = currencyResponse.Data.Find(c => c.Symbol == key) ?? throw new NullReferenceException();
+        Currency currency = data.Find(c => c.Symbol == key) ?? throw new NullReferenceException();
 
         string change = AverageCalculation(currency.Change, currency.ChangePct);
         text.AppendLine($"{ConvertShortName(currency.NameFa)}: {currency.Price:#,0}تومان, {change}");
@@ -46,7 +54,25 @@ string AverageCalculation(decimal? average, decimal? pct) => average switch
     0 => "بدون تغییر",
     > 0 => $"🔺 %{pct!.Value.ToString(CultureInfo.InvariantCulture)}+",
     < 0 => $"🔻 %{pct!.Value.ToString(CultureInfo.InvariantCulture)}-",
+    _ => ""
 };
+
+void CacheBalancer(CurrencyResponse currency)
+{
+    if (cache.Data == null)
+    {
+        cache = new() { Data = currency.Data };
+        return;
+    }
+
+    for (int counter = 0; counter < currency.Data.Count; counter++)
+    {
+        currency.Data[counter].Change = currency.Data[counter].Price - cache.Data[counter].Price;
+        currency.Data[counter].ChangePct = cache.Data[counter].Price == 0 ? 0 : currency.Data[counter].Change / cache.Data[counter].Price * 100;
+    }
+
+    cache = new() { Data = currency.Data };
+}
 
 string ConvertDateTimeToText()
 {
