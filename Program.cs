@@ -20,14 +20,14 @@ while (true)
     CacheBalancer(current);
 
     string res = ConvertCurrencyText(cache.Data ?? new());
-    Console.WriteLine("Get currency.");
+    
     try
     {
         await telegramBot.SendMessage(Environment.GetEnvironmentVariable("CHANNEL_LINK")!, $"{res}"); // Don't forget to add an '@' symbol before the channel link.
     }
     catch { await Task.Delay(5000); continue; }
 
-    await Task.Delay(TimeSpan.FromMinutes(59));
+    await Task.Delay(TimeSpan.FromMinutes(60));
 }
 
 string ConvertCurrencyText(List<Currency> data)
@@ -72,7 +72,7 @@ void CacheBalancer(CurrencyResponse currency)
     for (int counter = 0; counter < currency.Data.Count; counter++)
     {
         currency.Data[counter].Change = currency.Data[counter].Price - cache.Data[counter].Price;
-        currency.Data[counter].ChangePct = cache.Data[counter].Price == 0 ? 0 : currency.Data[counter].Change / cache.Data[counter].Price * 100;
+        currency.Data[counter].ChangePct = cache.Data[counter].Price == 0 ? 0 : Math.Round((currency.Data[counter].Price - cache.Data[counter].Price) / cache.Data[counter].Price, 4);
     }
 
     cache = new() { Data = currency.Data };
