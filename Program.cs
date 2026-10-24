@@ -26,7 +26,7 @@ while (true)
     {
         await telegramBot.SendMessage(Environment.GetEnvironmentVariable("CHANNEL_LINK")!, $"{res}", ParseMode.Markdown); // Don't forget to add an '@' symbol before the channel link.
     }
-    catch { await Task.Delay(5000); continue; }
+    catch { await Task.Delay(3000); continue; }
 
     await Task.Delay(TimeSpan.FromMinutes(60));
 }
