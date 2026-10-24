@@ -4,6 +4,7 @@ using System.Text;
 using Telegram.Bot;
 using CurrencyBot.Api;
 using CurrencyBot;
+using Telegram.Bot.Types.Enums;
 
 WelcomeMessage("Started Bot");
 
@@ -20,10 +21,10 @@ while (true)
     CacheBalancer(current);
 
     string res = ConvertCurrencyText(cache.Data ?? new());
-    
+
     try
     {
-        await telegramBot.SendMessage(Environment.GetEnvironmentVariable("CHANNEL_LINK")!, $"{res}"); // Don't forget to add an '@' symbol before the channel link.
+        await telegramBot.SendMessage(Environment.GetEnvironmentVariable("CHANNEL_LINK")!, $"{res}", ParseMode.Markdown); // Don't forget to add an '@' symbol before the channel link.
     }
     catch { await Task.Delay(5000); continue; }
 
@@ -44,20 +45,20 @@ string ConvertCurrencyText(List<Currency> data)
         Currency currency = data.Find(c => c.Symbol == key) ?? throw new NullReferenceException();
 
         string change = AverageCalculation(currency.Change, currency.ChangePct);
-        text.AppendLine($"{ConvertShortName(currency.NameFa)}: {currency.Price:#,0}تومان, {change}");
+        text.AppendLine($"{ConvertShortName(currency.NameFa)}: {currency.Price:#,0}تومان | {change}");
     }   
 
     text.AppendLine(Environment.NewLine);
     text.AppendLine("━");
-
+    text.AppendLine("[CHANNEL LINK](https://t.me/global_currency_iran)");
     return text.ToString();
 }
 
 string AverageCalculation(decimal? average, decimal? pct) => average switch
 {
-    0 => "بدون تغییر",
-    > 0 => $"🔺 %{pct!.Value.ToString(CultureInfo.InvariantCulture)}+",
-    < 0 => $"🔻 %{pct!.Value.ToString(CultureInfo.InvariantCulture)}-",
+    0 => "ثابت",
+    > 0 => $"⬆️ +{pct!.Value.ToString(CultureInfo.InvariantCulture)}%",
+    < 0 => $"⬇️ {pct!.Value.ToString(CultureInfo.InvariantCulture)}%",
     _ => ""
 };
 
@@ -72,7 +73,9 @@ void CacheBalancer(CurrencyResponse currency)
     for (int counter = 0; counter < currency.Data.Count; counter++)
     {
         currency.Data[counter].Change = currency.Data[counter].Price - cache.Data[counter].Price;
+
         currency.Data[counter].ChangePct = cache.Data[counter].Price == 0 ? 0 : Math.Round((currency.Data[counter].Price - cache.Data[counter].Price) / cache.Data[counter].Price, 4);
+        currency.Data[counter].ChangePct = cache.Data[counter].Price == 0 ? 0 : Math.Round((currency.Data[counter].Price - cache.Data[counter].Price) / cache.Data[counter].Price, 4); 
     }
 
     cache = new() { Data = currency.Data };
